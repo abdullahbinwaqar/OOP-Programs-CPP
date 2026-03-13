@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <typeinfo>
 # define Pi 3.142
 using namespace std;
 
@@ -20,7 +21,7 @@ class Circle : public Shape{
 	private:
 		float radius;
 	public:
-		Circle(int n, float r) : Shape(n), radius(r) {}
+		Circle(float r) : Shape(0), radius(r) {}
 		float getRadius() const {return radius;}
 		void generateArea(){
 			float a = Pi * pow(radius, 2); setArea(a);
@@ -33,7 +34,7 @@ class Triangle : public Shape{
 		float height;
 		float base;
 	public:
-		Triangle(int n, float h, float b) : Shape(n), height(h), base(b) {}
+		Triangle(float h, float b) : Shape(3), height(h), base(b) {}
 		float getHeight() const {return height;}
 		float getBase() const {return base;}
 		string getName() {return "Triangle";}
@@ -47,7 +48,7 @@ class Rectangle : public Shape{
 		float length;
 		float width;
 	public:
-		Rectangle(int n, float l, float w) : Shape(n), length(l), width(w) {}
+		Rectangle(float l, float w) : Shape(4), length(l), width(w) {}
 		float getLength() const {return length;}
 		float getWidth() const {return width;}
 		string getName() {return "Rectangle";}
@@ -60,7 +61,7 @@ class Square : public Rectangle {
 	private:
 		float side;
 	public:
-		Square(int n, float s) : Rectangle(n, s, s), side(s) {}
+		Square(float s) : Rectangle(s, s), side(s) {}
 		float getSide() const {return side;}
 		void generateArea(){
 			float a = pow(side, 2); setArea(a);
@@ -71,14 +72,19 @@ class Square : public Rectangle {
 
 int main(){
 	Shape* shapes[4];
-	shapes[0] = new Circle(0, 4);
-	shapes[1] = new Triangle(3, 2, 3);
-	shapes[2] = new Rectangle(4, 3, 6);
-	shapes[3] = new Square(4, 4);
+	shapes[0] = new Circle(4);
+	shapes[1] = new Triangle(2, 3);
+	shapes[2] = new Rectangle(3, 6);
+	shapes[3] = new Square(4);
 	
+	Square sq(4);
 	for(int i = 0; i < 4; i++){
 		shapes[i]->generateArea();
 		cout << "Area of " << shapes[i]->getName() << " is: " << shapes[i]->getArea() << endl;
 	}
+	
+	cout << (sq.checkSides() ? "Both sides of squares are equal!" : "Both sides of squares are not equal!") << endl;
+	
+	for(int i = 0; i < 4; i++){delete shapes[i];}
 	return 0;
 }
