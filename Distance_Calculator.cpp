@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 class Distance{
@@ -7,15 +6,17 @@ class Distance{
 		int feet;
 		int inches;
 	public:
-		Distance(int f, int i):feet(f),inches(i){}
+		Distance(int f, int i):feet(f){
+			feet += i / 12;
+    		inches = i % 12;
+		}
 		Distance operator + (const Distance& other)const{
 			int ft = feet + other.feet;
 			int in = inches + other.inches;
 			
-			if (in >= 12){
-				ft += in/12;
-				in %= 12;
-			}
+			ft += in/12;
+			in %= 12;
+			
 			return Distance(ft, in);
 		}
 		friend ostream& operator << (ostream& out, const Distance& other);
